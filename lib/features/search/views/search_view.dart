@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../home/widgets/home_product_card.dart';
 import '../providers/search_provider.dart';
 
@@ -30,7 +29,6 @@ class _SearchViewState extends ConsumerState<SearchView> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     final results = ref.watch(searchResultsProvider);
     final history = ref.watch(searchHistoryProvider);
     return Scaffold(
@@ -42,7 +40,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
           autofocus: true,
           onSubmitted: (value) => ref.read(searchResultsProvider.notifier).submit(value),
           decoration: InputDecoration(
-            hintText: l10n.searchHint,
+            hintText: 'ค้นหาใน JTikApp',
             prefixIcon: const Icon(Icons.search),
             filled: true,
             fillColor: const Color(0xFF141414),
@@ -65,7 +63,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (history.isNotEmpty) ...[
-              Text(l10n.searchRecent, style: Theme.of(context).textTheme.titleMedium),
+              Text('การค้นหาล่าสุด', style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 12),
               Wrap(
                 spacing: 12,
@@ -87,7 +85,7 @@ class _SearchViewState extends ConsumerState<SearchView> {
                   if (items.isEmpty) {
                     return Center(
                       child: Text(
-                        l10n.emptyState,
+                        'ยังไม่มีข้อมูล',
                         style: Theme.of(context).textTheme.titleMedium,
                       ),
                     );
@@ -104,10 +102,10 @@ class _SearchViewState extends ConsumerState<SearchView> {
                       final product = items[index];
                       return HomeProductCard(
                         product: product,
-                        ctaLabel: l10n.addToCart,
+                        ctaLabel: 'หยิบใส่รถเข็น',
                         onTap: () => context.go('/home/product/${product.id}'),
                         onAddToCart: () => ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('${product.name} added to cart')),
+                          SnackBar(content: Text('เพิ่ม ${product.name} ลงในรถเข็นแล้ว')),
                         ),
                       );
                     },

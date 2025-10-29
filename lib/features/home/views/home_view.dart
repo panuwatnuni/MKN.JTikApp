@@ -4,7 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
 import '../../../core/data/models/product.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../eservice/providers/eservice_subscription_provider.dart';
 import '../../search/providers/search_provider.dart';
 import '../providers/home_providers.dart';
@@ -15,7 +14,6 @@ class HomeView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
     final featured = ref.watch(homeFeaturedProductsProvider);
     final flashSale = ref.watch(flashSaleProductsProvider);
     final newArrivals = ref.watch(newArrivalsProvider);
@@ -42,13 +40,13 @@ class HomeView extends ConsumerWidget {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: _EserviceCard(l10n: l10n),
+              child: const _EserviceCard(),
             ),
           ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-              child: _FlashSaleStrip(l10n: l10n, flashSale: flashSale),
+              child: _FlashSaleStrip(flashSale: flashSale),
             ),
           ),
           SliverToBoxAdapter(
@@ -60,21 +58,21 @@ class HomeView extends ConsumerWidget {
           SliverPadding(
             padding: const EdgeInsets.all(16),
             sliver: _ProductSection(
-              title: l10n.topDeals,
+              title: 'ดีลเด็ด',
               products: featured,
             ),
           ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             sliver: _HorizontalSection(
-              title: l10n.newArrivals,
+              title: 'มาใหม่',
               products: newArrivals,
             ),
           ),
           SliverPadding(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             sliver: _HorizontalSection(
-              title: l10n.mostReviewed,
+              title: 'รีวิวเยอะ',
               products: mostReviewed,
             ),
           ),
@@ -92,7 +90,6 @@ class _HomeHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     return Align(
       alignment: Alignment.bottomCenter,
       child: Padding(
@@ -115,7 +112,7 @@ class _HomeHeader extends StatelessWidget {
                       const Icon(Icons.search, color: Color(0xFFC5A253)),
                       const SizedBox(width: 12),
                       Text(
-                        l10n.searchHint,
+                        'ค้นหาใน JTikApp',
                         style: const TextStyle(color: Colors.white70),
                       ),
                     ],
@@ -186,7 +183,7 @@ class _HeroCarouselState extends ConsumerState<_HeroCarousel> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Luxury Exclusives',
+                          'คอลเลกชันสุดหรู',
                           style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                                 color: Colors.white,
                                 fontWeight: FontWeight.bold,
@@ -202,7 +199,7 @@ class _HeroCarouselState extends ConsumerState<_HeroCarousel> {
                             ),
                           ),
                           child: const Text(
-                            'Shop the drop',
+                            'ช้อปเลยตอนนี้',
                             style: TextStyle(color: Colors.black, fontWeight: FontWeight.w700),
                           ),
                         ),
@@ -244,9 +241,7 @@ class _HeroCarouselState extends ConsumerState<_HeroCarousel> {
 }
 
 class _EserviceCard extends ConsumerWidget {
-  const _EserviceCard({required this.l10n});
-
-  final AppLocalizations l10n;
+  const _EserviceCard();
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -273,7 +268,7 @@ class _EserviceCard extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      '${l10n.eserviceTitle} — ${l10n.comingSoon}',
+                      'อีเซอร์วิส — เร็ว ๆ นี้',
                       style: Theme.of(context)
                           .textTheme
                           .titleMedium
@@ -281,7 +276,7 @@ class _EserviceCard extends ConsumerWidget {
                     ),
                     const SizedBox(height: 6),
                     Text(
-                      'Premium concierge, repairs and on-demand services at your fingertips.',
+                      'บริการคอนเซียร์จสุดพรีเมียม ซ่อมบำรุง และออนดีมานด์ครบในที่เดียว',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.white70),
                     ),
                   ],
@@ -300,7 +295,6 @@ class _EserviceCard extends ConsumerWidget {
     WidgetRef ref,
     bool subscribed,
   ) async {
-    final l10n = AppLocalizations.of(context);
     await showModalBottomSheet<void>(
       context: context,
       backgroundColor: const Color(0xFF121212),
@@ -321,14 +315,14 @@ class _EserviceCard extends ConsumerWidget {
                     const Icon(Icons.bolt, color: Color(0xFFC5A253), size: 32),
                     const SizedBox(width: 12),
                     Text(
-                      l10n.eserviceTitle,
+                      'อีเซอร์วิส',
                       style: Theme.of(context).textTheme.headlineSmall,
                     ),
                   ],
                 ),
                 const SizedBox(height: 12),
                 Text(
-                  'We are crafting ultra-premium concierge experiences. Be first to know when we launch.',
+                  'เรากำลังพัฒนาประสบการณ์คอนเซียร์จระดับลักซ์ชัวรี รอติดตามเป็นคนแรกเมื่อเราเปิดให้บริการ',
                   style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 const SizedBox(height: 24),
@@ -340,14 +334,16 @@ class _EserviceCard extends ConsumerWidget {
                     if (!context.mounted) return;
                     ScaffoldMessenger.of(context).showSnackBar(
                       SnackBar(
-                        content: Text(localSubscribed
-                            ? l10n.notifyEserviceSuccess
-                            : '${l10n.notifyMe} cancelled'),
+                        content: Text(
+                          localSubscribed
+                              ? 'เราจะแจ้งเมื่อพร้อมให้บริการ'
+                              : 'ยกเลิกการแจ้งเตือนแล้ว',
+                        ),
                       ),
                     );
                   },
                   icon: Icon(localSubscribed ? Icons.check : Icons.notifications_active),
-                  label: Text(localSubscribed ? l10n.notifySubscribed : l10n.notifyMe),
+                  label: Text(localSubscribed ? 'บันทึกเรียบร้อย' : 'แจ้งเตือนฉัน'),
                   style: ElevatedButton.styleFrom(
                     minimumSize: const Size.fromHeight(52),
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
@@ -366,9 +362,8 @@ class _EserviceCard extends ConsumerWidget {
 }
 
 class _FlashSaleStrip extends ConsumerWidget {
-  const _FlashSaleStrip({required this.l10n, required this.flashSale});
+  const _FlashSaleStrip({required this.flashSale});
 
-  final AppLocalizations l10n;
   final AsyncValue<List<Product>> flashSale;
 
   @override
@@ -390,7 +385,7 @@ class _FlashSaleStrip extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                l10n.flashSale,
+                'แฟลชเซลล์',
                 style: Theme.of(context).textTheme.titleLarge?.copyWith(
                       fontWeight: FontWeight.bold,
                     ),
@@ -566,11 +561,11 @@ class _ProductSection extends ConsumerWidget {
                 final product = items[index];
                 return HomeProductCard(
                   product: product,
-                  ctaLabel: AppLocalizations.of(context).addToCart,
+                  ctaLabel: 'หยิบใส่รถเข็น',
                   onTap: () => GoRouter.of(context).go('/home/product/${product.id}'),
                   onAddToCart: () => ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text('${product.name} added to cart'),
+                      content: Text('เพิ่ม ${product.name} ลงในรถเข็นแล้ว'),
                     ),
                   ),
                 );
@@ -617,10 +612,10 @@ class _HorizontalSection extends ConsumerWidget {
                     width: 220,
                     child: HomeProductCard(
                       product: product,
-                      ctaLabel: AppLocalizations.of(context).addToCart,
+                      ctaLabel: 'หยิบใส่รถเข็น',
                       onTap: () => GoRouter.of(context).go('/home/product/${product.id}'),
                       onAddToCart: () => ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${product.name} added to cart')),
+                        SnackBar(content: Text('เพิ่ม ${product.name} ลงในรถเข็นแล้ว')),
                       ),
                     ),
                   );

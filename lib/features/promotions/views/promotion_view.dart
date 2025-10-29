@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../home/widgets/home_product_card.dart';
 import '../providers/promotion_providers.dart';
 
@@ -12,10 +11,9 @@ class PromotionHubView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final promotions = ref.watch(promotionListProvider);
-    final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.promotionsHub),
+        title: const Text('ศูนย์โปรโมชัน'),
         backgroundColor: Colors.transparent,
       ),
       body: promotions.when(
@@ -50,7 +48,6 @@ class PromotionDetailView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
     final promotions = ref.watch(promotionListProvider);
     return promotions.when(
       data: (items) {
@@ -79,10 +76,10 @@ class PromotionDetailView extends ConsumerWidget {
                 final product = items[index];
                 return HomeProductCard(
                   product: product,
-                  ctaLabel: l10n.addToCart,
+                  ctaLabel: 'หยิบใส่รถเข็น',
                   onTap: () => context.go('/home/product/${product.id}'),
                   onAddToCart: () => ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('${product.name} added to cart')),
+                    SnackBar(content: Text('เพิ่ม ${product.name} ลงในรถเข็นแล้ว')),
                   ),
                 );
               },

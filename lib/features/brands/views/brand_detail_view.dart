@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../home/widgets/home_product_card.dart';
 import '../providers/brand_providers.dart';
 
@@ -13,7 +12,6 @@ class BrandDetailView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final l10n = AppLocalizations.of(context);
     final brand = ref.watch(brandListProvider);
     final products = ref.watch(brandProductsProvider(brandId));
     return Scaffold(
@@ -52,7 +50,7 @@ class BrandDetailView extends ConsumerWidget {
                     .toList(),
               ),
               const SizedBox(height: 24),
-              Text(l10n.topDeals, style: Theme.of(context).textTheme.titleLarge),
+              Text('ดีลเด็ด', style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 12),
               products.when(
                 data: (items) => GridView.builder(
@@ -69,10 +67,10 @@ class BrandDetailView extends ConsumerWidget {
                     final product = items[index];
                     return HomeProductCard(
                       product: product,
-                      ctaLabel: l10n.addToCart,
+                      ctaLabel: 'หยิบใส่รถเข็น',
                       onTap: () => context.go('/home/product/${product.id}'),
                       onAddToCart: () => ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${product.name} added to cart')),
+                        SnackBar(content: Text('เพิ่ม ${product.name} ลงในรถเข็นแล้ว')),
                       ),
                     );
                   },

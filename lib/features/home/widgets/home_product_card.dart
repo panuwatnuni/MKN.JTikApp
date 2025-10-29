@@ -9,7 +9,7 @@ class HomeProductCard extends StatelessWidget {
     required this.product,
     this.onTap,
     this.onAddToCart,
-    this.ctaLabel = 'Add to Cart',
+    this.ctaLabel = 'หยิบใส่รถเข็น',
   });
 
   final Product product;
@@ -94,7 +94,7 @@ class HomeProductCard extends StatelessWidget {
                       children: [
                         const Icon(Icons.star, color: Color(0xFFC5A253), size: 18),
                         const SizedBox(width: 4),
-                        Text('${product.rating.toStringAsFixed(1)} (${product.reviewsCount})'),
+                        Text('${product.rating.toStringAsFixed(1)} (${product.reviewsCount} รีวิว)'),
                       ],
                     ),
                     const SizedBox(height: 8),

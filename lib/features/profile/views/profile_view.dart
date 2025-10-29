@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/data/models/user.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../../auth/providers/auth_controller.dart';
 
 class ProfileView extends ConsumerWidget {
@@ -11,7 +10,6 @@ class ProfileView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final authState = ref.watch(authControllerProvider);
-    final l10n = AppLocalizations.of(context);
     return authState.when(
       data: (user) {
         if (user == null) {
@@ -25,7 +23,6 @@ class ProfileView extends ConsumerWidget {
   }
 
   Future<void> _showLoginSheet(BuildContext context, WidgetRef ref) async {
-    final l10n = AppLocalizations.of(context);
     final emailController = TextEditingController();
     final nameController = TextEditingController();
     final phoneController = TextEditingController();
@@ -48,21 +45,21 @@ class ProfileView extends ConsumerWidget {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(l10n.loginCta, style: Theme.of(context).textTheme.titleLarge),
+              Text('เข้าสู่ระบบเพื่อดำเนินการ', style: Theme.of(context).textTheme.titleLarge),
               const SizedBox(height: 16),
               TextField(
                 controller: emailController,
-                decoration: const InputDecoration(labelText: 'Email'),
+                decoration: const InputDecoration(labelText: 'อีเมล'),
               ),
               const SizedBox(height: 12),
               TextField(
                 controller: nameController,
-                decoration: const InputDecoration(labelText: 'Full name'),
+                decoration: const InputDecoration(labelText: 'ชื่อ-นามสกุล'),
               ),
               const SizedBox(height: 12),
               TextField(
                 controller: phoneController,
-                decoration: const InputDecoration(labelText: 'Phone'),
+                decoration: const InputDecoration(labelText: 'เบอร์โทร'),
               ),
               const SizedBox(height: 24),
               ElevatedButton(
@@ -80,7 +77,7 @@ class ProfileView extends ConsumerWidget {
                   backgroundColor: const Color(0xFFC5A253),
                   foregroundColor: Colors.black,
                 ),
-                child: Text(l10n.loginCta),
+                child: const Text('เข้าสู่ระบบเพื่อดำเนินการ'),
               ),
             ],
           ),
@@ -97,16 +94,15 @@ class _UnauthenticatedProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.tabProfile), backgroundColor: Colors.transparent),
+      appBar: AppBar(title: const Text('ฉัน'), backgroundColor: Colors.transparent),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const Icon(Icons.lock_outline, size: 72, color: Color(0xFFC5A253)),
             const SizedBox(height: 16),
-            Text(l10n.loginCta, style: Theme.of(context).textTheme.titleMedium),
+            Text('เข้าสู่ระบบเพื่อดำเนินการ', style: Theme.of(context).textTheme.titleMedium),
             const SizedBox(height: 24),
             ElevatedButton(
               onPressed: onLogin,
@@ -116,7 +112,7 @@ class _UnauthenticatedProfile extends StatelessWidget {
                 backgroundColor: const Color(0xFFC5A253),
                 foregroundColor: Colors.black,
               ),
-              child: Text(l10n.loginCta),
+              child: const Text('เข้าสู่ระบบเพื่อดำเนินการ'),
             ),
           ],
         ),
@@ -133,10 +129,9 @@ class _AuthenticatedProfile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.tabProfile),
+        title: const Text('ฉัน'),
         backgroundColor: Colors.transparent,
         actions: [
           IconButton(onPressed: onLogout, icon: const Icon(Icons.logout)),
@@ -156,7 +151,7 @@ class _AuthenticatedProfile extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           _ProfileSection(
-            title: l10n.addressBook,
+            title: 'ที่อยู่',
             children: user.addresses
                 .map((address) => ListTile(
                       leading: const Icon(Icons.location_on_outlined),
@@ -165,16 +160,16 @@ class _AuthenticatedProfile extends StatelessWidget {
                 .toList(),
           ),
           _ProfileSection(
-            title: l10n.orders,
+            title: 'คำสั่งซื้อ',
             children: const [
               ListTile(
                 leading: Icon(Icons.receipt_long),
-                title: Text('No recent orders'),
+                title: Text('ยังไม่มีคำสั่งซื้อ'),
               ),
             ],
           ),
           _ProfileSection(
-            title: l10n.paymentMethods,
+            title: 'การชำระเงิน',
             children: user.paymentMethods
                 .map((method) => ListTile(
                       leading: const Icon(Icons.credit_card),
@@ -183,26 +178,26 @@ class _AuthenticatedProfile extends StatelessWidget {
                 .toList(),
           ),
           _ProfileSection(
-            title: l10n.notificationSettings,
+            title: 'การแจ้งเตือน',
             children: [
               SwitchListTile(
                 value: user.notificationsEnabled,
                 onChanged: (_) {},
-                title: Text(l10n.tabNotifications),
+                title: const Text('การแจ้งเตือน'),
               ),
             ],
           ),
           _ProfileSection(
-            title: l10n.profileSecurity,
+            title: 'ความปลอดภัย',
             children: [
               SwitchListTile(
                 value: user.twoFactorEnabled,
                 onChanged: (_) {},
-                title: Text(l10n.twoFactor),
+                title: const Text('ยืนยันตัวตน 2 ขั้นตอน'),
               ),
               ListTile(
                 leading: const Icon(Icons.lock_reset),
-                title: Text(l10n.changePassword),
+                title: const Text('เปลี่ยนรหัสผ่าน'),
               ),
             ],
           ),

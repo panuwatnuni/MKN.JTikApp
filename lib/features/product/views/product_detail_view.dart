@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../../../core/data/models/product.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../providers/product_detail_provider.dart';
 
 class ProductDetailView extends ConsumerWidget {
@@ -14,16 +13,15 @@ class ProductDetailView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final product = ref.watch(productDetailProvider(productId));
-    final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.appTitle),
+        title: const Text('JTikApp'),
         backgroundColor: Colors.transparent,
       ),
       body: product.when(
         data: (item) {
           if (item == null) {
-            return Center(child: Text(l10n.emptyState));
+            return const Center(child: Text('ยังไม่มีข้อมูล'));
           }
           return _ProductDetailContent(product: item);
         },
@@ -48,7 +46,6 @@ class _ProductDetailContentState extends State<_ProductDetailContent> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     final product = widget.product;
     return ListView(
       padding: const EdgeInsets.only(bottom: 24),
@@ -101,7 +98,7 @@ class _ProductDetailContentState extends State<_ProductDetailContent> {
                 children: [
                   const Icon(Icons.star, color: Color(0xFFC5A253)),
                   const SizedBox(width: 6),
-                  Text('${product.rating} (${product.reviewsCount} ${l10n.reviews})'),
+                  Text('${product.rating} (${product.reviewsCount} รีวิว)'),
                 ],
               ),
               const SizedBox(height: 12),
@@ -137,7 +134,7 @@ class _ProductDetailContentState extends State<_ProductDetailContent> {
                     .toList(),
               ),
               const SizedBox(height: 24),
-              Text(l10n.productSpecs, style: Theme.of(context).textTheme.titleMedium),
+              Text('ข้อมูลสินค้า', style: Theme.of(context).textTheme.titleMedium),
               const SizedBox(height: 12),
               ...product.specs.entries.map(
                 (entry) => ListTile(
@@ -152,7 +149,7 @@ class _ProductDetailContentState extends State<_ProductDetailContent> {
                   Expanded(
                     child: ElevatedButton(
                       onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${product.name} ${l10n.addToCart}')),
+                        SnackBar(content: Text('เพิ่ม ${product.name} ลงในรถเข็นแล้ว')),
                       ),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
@@ -160,14 +157,14 @@ class _ProductDetailContentState extends State<_ProductDetailContent> {
                         backgroundColor: const Color(0xFFC5A253),
                         foregroundColor: Colors.black,
                       ),
-                      child: Text(l10n.addToCart),
+                      child: const Text('หยิบใส่รถเข็น'),
                     ),
                   ),
                   const SizedBox(width: 16),
                   Expanded(
                     child: OutlinedButton(
                       onPressed: () => ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('${product.name} ${l10n.buyNow}')),
+                        SnackBar(content: Text('สั่งซื้อ ${product.name} ทันที')),
                       ),
                       style: OutlinedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
@@ -175,7 +172,7 @@ class _ProductDetailContentState extends State<_ProductDetailContent> {
                         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
                         foregroundColor: const Color(0xFFC5A253),
                       ),
-                      child: Text(l10n.buyNow),
+                      child: const Text('ซื้อเลย'),
                     ),
                   ),
                 ],

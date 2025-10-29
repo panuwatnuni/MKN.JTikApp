@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../providers/notification_providers.dart';
 
 class NotificationsView extends ConsumerWidget {
@@ -12,20 +11,19 @@ class NotificationsView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final notifications = ref.watch(notificationsProvider);
-    final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.tabNotifications),
+        title: const Text('การแจ้งเตือน'),
         backgroundColor: Colors.transparent,
         actions: [
           IconButton(
             icon: const Icon(Icons.done_all),
-            tooltip: l10n.markAllRead,
+            tooltip: 'อ่านทั้งหมด',
             onPressed: () => ref.read(notificationsProvider.notifier).markAllRead(),
           ),
           IconButton(
             icon: const Icon(Icons.delete_sweep),
-            tooltip: l10n.clearPromotions,
+            tooltip: 'ล้างโปรโมชัน',
             onPressed: () => ref.read(notificationsProvider.notifier).clearPromotions(),
           ),
         ],
@@ -34,7 +32,7 @@ class NotificationsView extends ConsumerWidget {
         data: (items) {
           if (items.isEmpty) {
             return Center(
-              child: Text(l10n.emptyState, style: Theme.of(context).textTheme.titleMedium),
+              child: Text('ยังไม่มีข้อมูล', style: Theme.of(context).textTheme.titleMedium),
             );
           }
           final grouped = groupBy(items, (item) => item.type);
@@ -141,7 +139,7 @@ class NotificationsView extends ConsumerWidget {
       context.go('/me');
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Action: $target')),
+        SnackBar(content: Text('ดำเนินการ: $target')),
       );
     }
   }
