@@ -8,6 +8,7 @@ import '../../eservice/providers/eservice_subscription_provider.dart';
 import '../../search/providers/search_provider.dart';
 import '../providers/home_providers.dart';
 import '../widgets/home_product_card.dart';
+import '../widgets/one_day_late_alert.dart';
 
 class HomeView extends ConsumerWidget {
   const HomeView({super.key});
@@ -19,6 +20,11 @@ class HomeView extends ConsumerWidget {
     final newArrivals = ref.watch(newArrivalsProvider);
     final mostReviewed = ref.watch(mostReviewedProvider);
     final categories = ref.watch(categoryListProvider);
+    void showSnack(String message) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text(message)),
+      );
+    }
     return SafeArea(
       child: CustomScrollView(
         slivers: [
@@ -41,6 +47,18 @@ class HomeView extends ConsumerWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               child: const _EserviceCard(),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              child: OneDayLateAlert(
+                orderId: '#JTIK728394',
+                expectedDelivery: DateTime.now().add(const Duration(days: 1)),
+                reason: 'เที่ยวพัสดุของคุณออกจากศูนย์กระจายสินค้าช้ากว่ากำหนดเล็กน้อย',
+                onTrackOrder: () => showSnack('กำลังติดตามพัสดุ'),
+                onContactSupport: () => showSnack('ทีมคอนเซียร์จจะติดต่อกลับโดยเร็ว'),
+              ),
             ),
           ),
           SliverToBoxAdapter(
