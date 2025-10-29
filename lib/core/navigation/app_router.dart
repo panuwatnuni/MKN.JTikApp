@@ -10,7 +10,6 @@ import '../../features/product/views/product_detail_view.dart';
 import '../../features/profile/views/profile_view.dart';
 import '../../features/promotions/views/promotion_view.dart';
 import '../../features/search/views/search_view.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 final appRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -117,7 +116,6 @@ class _JTikNavigationScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     return Scaffold(
       body: AnimatedSwitcher(
         duration: const Duration(milliseconds: 300),
@@ -136,31 +134,31 @@ class _JTikNavigationScaffold extends StatelessWidget {
           selectedIndex: shell.currentIndex,
           height: 72,
           onDestinationSelected: _onTabSelected,
-          destinations: <NavigationDestination>[
+          destinations: const <NavigationDestination>[
             NavigationDestination(
-              icon: const Icon(Icons.home_outlined),
-              selectedIcon: const Icon(Icons.home),
-              label: l10n.tabHome,
+              icon: Icon(Icons.home_outlined),
+              selectedIcon: Icon(Icons.home),
+              label: 'หน้าหลัก',
             ),
             NavigationDestination(
-              icon: const Icon(Icons.store_mall_directory_outlined),
-              selectedIcon: const Icon(Icons.store),
-              label: l10n.tabBrands,
+              icon: Icon(Icons.store_mall_directory_outlined),
+              selectedIcon: Icon(Icons.store),
+              label: 'แบรนด์',
             ),
             NavigationDestination(
-              icon: const Icon(Icons.local_fire_department_outlined),
-              selectedIcon: const Icon(Icons.local_fire_department),
-              label: l10n.tabPromotions,
+              icon: Icon(Icons.local_fire_department_outlined),
+              selectedIcon: Icon(Icons.local_fire_department),
+              label: 'โปรโมชัน',
             ),
             NavigationDestination(
-              icon: const Icon(Icons.notifications_none),
-              selectedIcon: const Icon(Icons.notifications_active),
-              label: l10n.tabNotifications,
+              icon: Icon(Icons.notifications_none),
+              selectedIcon: Icon(Icons.notifications_active),
+              label: 'การแจ้งเตือน',
             ),
             NavigationDestination(
-              icon: const Icon(Icons.person_outline),
-              selectedIcon: const Icon(Icons.person),
-              label: l10n.tabProfile,
+              icon: Icon(Icons.person_outline),
+              selectedIcon: Icon(Icons.person),
+              label: 'ฉัน',
             ),
           ],
         ),

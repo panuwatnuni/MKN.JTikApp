@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import '../providers/brand_providers.dart';
 
 class BrandWallView extends ConsumerWidget {
@@ -11,10 +10,9 @@ class BrandWallView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final brands = ref.watch(brandListProvider);
-    final l10n = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text(l10n.brandWall),
+        title: const Text('รวมแบรนด์'),
         backgroundColor: Colors.transparent,
       ),
       body: brands.when(
@@ -57,7 +55,7 @@ class BrandWallView extends ConsumerWidget {
                     ),
                     const SizedBox(height: 4),
                     Text(
-                      '${brand.productCount} items',
+                      '${brand.productCount} ชิ้น',
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(color: Colors.white70),
                     ),
                   ],
